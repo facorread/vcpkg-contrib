@@ -36,7 +36,10 @@ else()
 endif()
 
 if("mysql" IN_LIST FEATURES)
-    vcpkg_list(APPEND CONFIGURE_OPTIONS --enable-mysql)
+    vcpkg_list(APPEND CONFIGURE_OPTIONS
+        --enable-mysql
+        "CPPFLAGS=-I${CURRENT_INSTALLED_DIR}/include/mysql \$CPPFLAGS"
+    )
 else()
     vcpkg_list(APPEND CONFIGURE_OPTIONS --disable-mysql)
 endif()
@@ -47,9 +50,6 @@ else()
     vcpkg_list(APPEND CONFIGURE_OPTIONS --disable-odbc)
 endif()
 
-vcpkg_list(APPEND CONFIGURE_OPTIONS
-    "CPPFLAGS=-I${CURRENT_INSTALLED_DIR}/include/mysql \$CPPFLAGS"
-)
 
 # 2022-12-15 Notes about including w64/config_VC into config.h
 # glpk's approach for building on Windows steers away from the functionality provided by Autotools.
